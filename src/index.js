@@ -4,6 +4,14 @@ var keys = require("keys"),
     isArrayLike = require("is_array_like");
 
 
+module.exports = forEachRight;
+
+
+function forEachRight(object, callback, thisArg) {
+    callback = isNullOrUndefined(thisArg) ? callback : fastBindThis(callback, thisArg, 2);
+    return isArrayLike(object) ? forEachRightArray(object, callback) : forEachRightObject(object, callback);
+}
+
 function forEachRightArray(array, callback) {
     var i = array.length;
 
@@ -31,8 +39,3 @@ function forEachRightObject(object, callback) {
 
     return object;
 }
-
-module.exports = function forEachRight(object, callback, thisArg) {
-    callback = isNullOrUndefined(thisArg) ? callback : fastBindThis(callback, thisArg, 2);
-    return isArrayLike(object) ? forEachRightArray(object, callback) : forEachRightObject(object, callback);
-};
