@@ -1,41 +1,16 @@
-var keys = require("keys"),
+var isArrayLike = require("is_array_like"),
     isNullOrUndefined = require("is_null_or_undefined"),
     fastBindThis = require("fast_bind_this"),
-    isArrayLike = require("is_array_like");
+    arrayForEachRight = require("array-for_each_right"),
+    objectForEachRight = require("object-for_each_right");
 
 
 module.exports = forEachRight;
 
 
-function forEachRight(object, callback, thisArg) {
-    callback = isNullOrUndefined(thisArg) ? callback : fastBindThis(callback, thisArg, 2);
-    return isArrayLike(object) ? forEachRightArray(object, callback) : forEachRightObject(object, callback);
-}
-
-function forEachRightArray(array, callback) {
-    var i = array.length;
-
-    while (i--) {
-        if (callback(array[i], i) === false) {
-            return false;
-        }
-    }
-
-    return array;
-}
-
-function forEachRightObject(object, callback) {
-    var objectKeys = keys(object),
-        i = objectKeys.length,
-        key;
-
-    while (i--) {
-        key = objectKeys[i];
-
-        if (callback(object[key], key) === false) {
-            return false;
-        }
-    }
-
-    return object;
+function forEachRight(value, callback, thisArg) {
+    callback = isNullOrUndefined(thisArg) ? callback : fastBindThis(callback, thisArg, 3);
+    return isArrayLike(value) ?
+        arrayForEachRight(value, callback) :
+        objectForEachRight(value, callback);
 }

@@ -1,4 +1,4 @@
-forEachRight
+for_each_right
 =======
 
-forEachRight for the browser and node.js
+for_each_right for the browser and node.js
